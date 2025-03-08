@@ -19,7 +19,7 @@ body, html {
     align-items: center;
 }
 canvas {
-    width: 1400px; /* Set canvas width manually */
+    width: 2000px; /* Set canvas width manually */
     margin: 0 auto; /* Center the canvas horizontally */
     display: block; /* Ensure proper centering */
 }
@@ -32,8 +32,30 @@ canvas {
 <script>
     let riveInstance, widthNumInput;
 
- 
+    function updateCanvasHeight() {
+        const browserWidth = window.innerWidth;
+        const canvas = document.getElementById('riveCanvas');
+        const widthDisplay = document.getElementById('widthDisplay');
 
+        widthDisplay.innerText = browserWidth + ' px';
+
+        // Update Rive input if available
+        if (widthNumInput) {
+            widthNumInput.value = browserWidth;
+        }
+
+        // Update canvas height based on breakpoint
+        if (browserWidth >= 1228) {
+            canvas.style.height = '1492px'; // wide height
+        } else {
+            canvas.style.height = '2275px'; // skinny height
+        }
+
+        // Ensure Rive redraws on canvas resize
+        if (riveInstance) {
+            riveInstance.resizeDrawingSurfaceToCanvas();
+        }
+    }
 
     // Initialize Rive
     riveInstance = new rive.Rive({
